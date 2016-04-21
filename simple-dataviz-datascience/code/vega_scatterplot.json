@@ -1,0 +1,131 @@
+{
+  "width": 400,
+  "height": 400,
+  "data": [
+    {
+      "name": "iris",
+      "url": "../data/iris.json"
+    },
+    {
+      "name": "fields",
+      "values": ["petalWidth", "petalLength", "sepalWidth", "sepalLength"]
+    }
+  ],
+  "scales": [
+    {
+      "name": "xscale",
+      "type": "linear",
+      "domain": {
+        "data": "iris",
+        "field": ["petalWidth"]
+      },
+      "range": "width",
+      "nice": true
+    },
+    {
+      "name": "yscale",
+      "type": "linear",
+      "domain": {
+        "data": "iris",
+        "field": ["petalLength"]
+      },
+      "range": "height",
+      "nice": true
+    }
+  ,
+    {
+      "name": "c",
+      "type": "ordinal",
+      "domain": {"data": "iris", "field": "species"},
+      "range": "category10"
+    }
+  ],
+  "legends": [
+    {
+      "fill": "c",
+      "title": "Species",
+      "offset": 10,
+      "properties": {
+        "symbols": {
+          "fillOpacity": {"value": 0.5},
+          "stroke": {"value": "transparent"}
+        }
+      }
+    }
+  ],
+  "axes": [
+    {
+      "type": "x",
+      "scale": "xscale",
+      "orient": "bottom",
+      "title": "Agriculture as a percentage of GDP (2010)"
+    },
+    {
+      "type": "y",
+      "scale": "yscale",
+      "orient": "left",
+      "title": "Industry as a percentage of GDP (2010)"
+    }
+  ],
+  "marks": [
+    {
+      "type": "symbol",
+      "from": {
+        "data": "iris"
+      },
+      "properties": {
+        "enter": {
+          "x": {
+            "field": "petalWidth",
+            "scale": "xscale"
+          },
+          "y": {
+            "field": "petalLength",
+            "scale": "yscale"
+          },
+          "size": {"value": 49},
+          "fill": {"value": "#3182bd"},
+          "opacity": {"value": 0.7}
+        },
+        "update": {
+              "fill": {"scale": "c", "field": "species"},
+              "fillOpacity": {"value": 0.5}
+        },
+        "hover": {
+          "fill": {"value": "#de2d26"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "properties": {
+        "enter": {
+          "fill": {"value": "black"}
+        },
+        "update": {
+          "x": {
+            "scale": "xscale",
+            "signal": "hover.petalWidth",
+            "offset": 5
+          },
+          "y": {
+            "scale": "yscale",
+            "signal": "hover.industry_2010",
+            "offset": -5
+          },
+          "text": {"signal": "hover.petalWidth"}
+        }
+      }
+    }
+  ],
+  "signals": [
+    {
+      "name": "hover",
+      "init": {},
+      "streams": [
+        {"type": "symbol:mouseover", "expr": "datum"},
+        {"type": "symbol:mouseout", "expr": "{}"}
+      ]
+    }
+  ]
+}

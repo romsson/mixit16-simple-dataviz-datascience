@@ -1,0 +1,45 @@
+<!doctype html>
+<meta charset="utf-8">
+<script src="d3/d3.js"></script>
+<script src="vistk/build/vistk.js"></script>
+<link href="vistk/css/vistk.css" rel="stylesheet">
+<body>
+<div id="viz"></div>
+<script>
+
+d3.json("../data/iris.json", function(error, data) {
+
+  visualization = vistk.viz()
+    .params({
+      type: 'scatterplot',
+      margin: {top: 10, right: 10, bottom: 30, left: 30},
+      container: '#viz',
+      data: data,
+      var_id: '__id',
+      var_group: 'species',
+      var_color: 'species',
+//      color: vistk.utils.colors.world_regions,
+      var_x: 'sepalLength',
+      var_y: 'sepalWidth',
+    //  var_r: 'petalLength',
+      color: d3.scale.ordinal().domain(['versicolor', 'virginica', 'setosa']).range(['orange', 'lightgreen', 'lightblue']),
+      var_text: '__id',
+      items: [{
+        attr: "name",
+        marks: [{
+          type: "circle",
+          rotate: "-30"
+        }, {
+          var_mark: '__highlighted',
+          type: d3.scale.ordinal().domain([true, false]).range(["text", "none"]),
+          rotate: "-30",
+          translate: [20, -20]
+        }]
+      }],
+      title: "IRIS Scatterplot"
+    });
+
+  d3.select("#viz").call(visualization);
+
+});
+</script>

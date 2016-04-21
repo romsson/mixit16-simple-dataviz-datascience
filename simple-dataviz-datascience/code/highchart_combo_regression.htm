@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+
+        <script src="d3/d3.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<style type="text/css">
+${demo.css}
+		</style>
+		<script type="text/javascript">
+
+$(function () {
+
+d3.json('../data/iris.json', function(data) {
+
+    var config = {
+            xAxis: {
+                min: -0.5,
+                max: 5.5
+            },
+            yAxis: {
+                min: 0
+            },
+            title: {
+                text: 'Scatter plot with regression line'
+            },
+            series: [{
+                type: 'line',
+                name: 'Regression Line',
+                data: [[0, 1.11], [5, 4.51]],
+                marker: {
+                    enabled: false
+                },
+                states: {
+                    hover: {
+                        lineWidth: 0
+                    }
+                },
+                enableMouseTracking: false
+            }]
+        };
+
+    var setosa = {};
+    setosa.type = 'scatter';
+    setosa.name = 'setosa';
+    setosa.data = data.filter(function(d) { return d.species === 'setosa'; })
+                      .map(function(d) { return [d.petalWidth, d.sepalLength]; });
+    setosa.marker = {radius: 4};
+
+    var versicolor = [];
+    versicolor.type = 'scatter';
+    versicolor.name = 'versicolor';
+    versicolor.data = data.filter(function(d) { return d.species === 'versicolor'; })
+                          .map(function(d) { return [d.petalWidth, d.sepalLength]; });
+    versicolor.marker = {radius: 4};
+
+    var virginica = [];
+    virginica.type = 'scatter';
+    virginica.name = 'virginica';
+    virginica.data = data.filter(function(d) { return d.species === 'virginica'; })
+                         .map(function(d) { return [d.petalWidth, d.sepalLength]; });
+    virginica.marker = {radius: 4};
+
+    config.series.push(setosa);
+    config.series.push(versicolor);
+    config.series.push(virginica);
+
+    $('#container').highcharts(config);
+});
+});
+		</script>
+	</head>
+	<body>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+	</body>
+</html>
